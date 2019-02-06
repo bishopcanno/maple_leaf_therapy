@@ -1,28 +1,78 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
+import Nav from './components/Nav';
 import './App.css';
+import MainCard from './components/MainCard';
 
-class App extends Component {
+export const UserContext = React.createContext();
+
+export class App extends Component {
+  state = {
+    username: "",
+    email: "",
+    password: "",
+  }
+
+  handleLogin = (data, cb) => {
+    const {
+      password,
+      email,
+      username
+    } = data
+    this.setState({
+      password,
+      email,
+      username
+    });
+    console.log(cb);
+    if(cb){
+      cb()
+      console.log(data)
+    }
+  };
+
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+      <Router>
+        <div>
+          <UserContext.Provider value={
+            {
+              state: this.state,
+              handleLogin: this.handleLogin
+            }
+          }>
+            <header>
+              <Nav />
+            </header>
+
+            <main className="container">
+              <MainCard />
+            </main>
+          
+            <footer className="page-footer red darken-3">
+              <div className="container" />
+              <div className="footer-copyright">
+                <div className="container hide-on-med-and-down">
+                  <span>COPYRIGHT 2019 © Eric Bishop</span>
+                  <span className="right">
+                    <Link className="footer-link" to="/about">
+                      ABOUT
+                    </Link>{" "}
+                    |{" "}
+                    <Link className="footer-link" to="/tech">
+                      TECH
+                    </Link>{" "}
+                    |{" "}
+                    <Link className="footer-link" to="/tandc">
+                      TERMS AND CONDITIONS
+                    </Link>
+                  </span>
+                </div>
+              </div>
+            </footer>
+          </UserContext.Provider>
+        </div>
+      </Router>
     );
   }
 }
-
-export default App;

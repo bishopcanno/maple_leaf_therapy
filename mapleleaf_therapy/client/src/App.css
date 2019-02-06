@@ -30,3 +30,10 @@
     transform: rotate(360deg);
   }
 }
+body {
+  width: 100%;
+  background-image: url(./utils/imgs/redYellowMaple.jpg);
+  background-attachment: fixed;
+  background-position: center;
+
+}
